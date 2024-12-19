@@ -1,0 +1,43 @@
+<script setup>
+
+//Login método post
+async function login() {
+    try {
+        const response = await fetch('http://localhost:5183/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ usuario, senha })
+        });
+        if (!response.ok) {
+            const dadosErro = await response.json();
+            alert(dadosErro.mensagem || 'Erro desconhecido');
+            throw new Error(dadosErro.mensagem || 'Erro desconhecido');
+        }
+
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        alert(data.mensagem);
+        window.location.href = '/';
+
+    } catch (erro) {
+        console.log('Erro', erro)
+        alert(erro.message || 'Erro ao fazer login')
+    }
+}
+
+</script>
+
+<template>
+    <link rel="shortcut icon" href="../public/icone.ico" type="image/x-icon">
+    <div class="login">
+        <h1>Login</h1>
+        <input type="text" v-model="usuario" placeholder="Usuário">
+        <input type="password" v-model="senha" placeholder="Senha">
+        <button @click="login">Entrar</button>
+    </div>
+
+</template>
+
+<style scoped></style>
