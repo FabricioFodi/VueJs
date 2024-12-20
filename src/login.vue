@@ -36,6 +36,7 @@ async function login() {
         <input type="text" v-model="usuario" placeholder="Usuário">
         <input type="password" v-model="senha" placeholder="Senha">
         <button @click="login">Entrar</button>
+        <p>Não tem cadastro? <a href="#/cadastro">clique aqui</a> para criar uma conta.</p>
     </div>
 
 </template>

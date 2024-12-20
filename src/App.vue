@@ -4,9 +4,25 @@ import { ref } from 'vue'
 const tarefas = ref([])
 const novaTarefa = ref('')
 
+let tentativas = localStorage.getItem('tentativas') || 0;
+if (!localStorage.getItem('token')) {
+    tentativas++;
+    localStorage.setItem('tentativas', tentativas);
+    if (tentativas > 3) {
+        alert('Você está bloqueado por tentativas indevidas!');
+        console.log('Ninguém mandou tentar burlar o sistema 👺👺');
+        window.location.hash = '/oops';
+    }
+}
+
 //Adicionar tarefa método post
 async function adicionarTarefa() {
   try {
+
+    if (!novaTarefa.value) {
+      alert('Digite uma tarefa');
+      return;
+    }
     const response = await fetch('http://localhost:5183/api/tarefas', {
       method: 'POST',
       headers: {
@@ -53,25 +69,25 @@ async function listarTarefas() {
 
 //Excluir tarefa método delete
 async function excluirTarefa() {
- try {
-  const response = await fetch(`http://localhost:5183/api/tarefas/${index}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
+  try {
+    const response = await fetch(`http://localhost:5183/api/tarefas/${index}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    if (!response.ok) {
+      const dadosErro = await response.json();
+      alert(dadosErro.mensagem || 'Erro desconhecido');
+      throw new Error(dadosErro.mensagem || 'Erro desconhecido');
     }
-  });
-  if (!response.ok) {
-    const dadosErro = await response.json();
-    alert(dadosErro.mensagem || 'Erro desconhecido');
-    throw new Error(dadosErro.mensagem || 'Erro desconhecido');
-  }
 
-  alert('Tarefa excluída com sucesso');
-  tarefas.value = tarefas.value.filter(tarefa => tarefa.id !== id);                                                                                                                                                                                             
- } catch (error) {
-  console.error('Erro', error);
-  alert(error.mensagem || 'Erro ao excluir a tarefa');
- }
+    alert('Tarefa excluída com sucesso');
+    tarefas.value = tarefas.value.filter(tarefa => tarefa.id !== id);
+  } catch (error) {
+    console.error('Erro', error);
+    alert(error.mensagem || 'Erro ao excluir a tarefa');
+  }
 }
 
 //alternar tarefa

@@ -6,9 +6,17 @@ import Cadastro from './Cadastro.vue';
 import NotFound from './NotFound.vue';
 
 const routes = {
-    '/': Login,
+    '/login': Login,
     '/cadastro': Cadastro,
-    '/tarefas': App
+    '/tarefas': App,
+    '/oops': NotFound
+}
+
+
+
+// Detectar se o hash inicial está vazio e redirecionar para "/login"
+if (!window.location.hash || window.location.hash === '/') {
+    window.location.hash = '#/login';
 }
 
 const currentPath = ref(window.location.hash);
@@ -18,7 +26,12 @@ window.addEventListener('hashchange', () => {
 });
 
 const currentView = computed(() => {
-    return routes[currentPath.value.slice(1) || '/'] || NotFound;
+    const route = routes[currentPath.value.slice(1)];
+    if (!route) {
+        window.location.hash = '#/oops'; // Redirecionar para a página de erro
+        return NotFound; // Como fallback para evitar problemas
+    }
+    return route;
 });
 
 </script>
