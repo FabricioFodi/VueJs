@@ -1,4 +1,8 @@
 <script setup>
+import { ref } from 'vue';
+
+const usuario = ref('');
+const senha = ref('');
 
 //Login método post
 async function login() {
@@ -8,7 +12,7 @@ async function login() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ usuario, senha })
+            body: JSON.stringify({ usuario: usuario.value, senha: senha.value })
         });
         if (!response.ok) {
             const dadosErro = await response.json();
@@ -22,8 +26,8 @@ async function login() {
         window.location.href = '/';
 
     } catch (erro) {
-        console.log('Erro', erro)
-        alert(erro.message || 'Erro ao fazer login')
+        console.error('Erro', erro);
+        alert(erro.message || 'Erro ao fazer login');
     }
 }
 

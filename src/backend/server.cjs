@@ -55,7 +55,7 @@ app.post('/api/cadastro', async (req, res) => {
 
 
 //Rota de Login
-app.post('api/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     try {
         const { usuario, senha } = req.body;
 
@@ -72,7 +72,7 @@ app.post('api/login', async (req, res) => {
         }
         const token = jwt.sign(
             { usuario: dadosUsuario.usuario },
-            'chave-secreta',
+            'SECRET_KEY',
             { expiresIn: '30m' }
         );
         return res.status(200).json({ mensagem: 'Usuário logado', token });

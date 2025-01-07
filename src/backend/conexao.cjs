@@ -4,7 +4,7 @@ const conexao = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'agenda'
+    database: 'tarefas'
 });
 
 conexao.connect((erro) => {
