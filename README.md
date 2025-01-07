@@ -1,6 +1,6 @@
 # Meu Primeiro Projeto Vue
 
-This template should help get you started developing with Vue 3 in Vite.
+Este documento tem como objetivo ajudar a entender melhor como executar o projeto
 
 ## Tecnologias Utilizadas
 
@@ -25,7 +25,7 @@ BCrypt
 npm install bcrypt
 ```
 
-### Iniciar
+## Iniciar
 
 Para executar o projeto é necessário executar os comandos em terminais diferentes
 
