@@ -27,7 +27,7 @@ npm install bcrypt
 
 ## Iniciar
 
-Para executar o projeto é necessário executar os comandos em terminais diferentes
+Para iniciar o projeto é necessário executar os comandos em terminais diferentes
 
 Vite
 ```sh
