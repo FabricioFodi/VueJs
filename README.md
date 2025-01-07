@@ -1,29 +1,40 @@
-# meu-projeto-vue
+# Meu Primeiro Projeto Vue
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+## Tecnologias Utilizadas
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+[VueJs](https://br.vuejs.org/) + [NodeJS](https://nodejs.org/pt) + [MySQL](https://www.mysql.com/)
 
-## Customize configuration
+## Setup
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Antes de rodar o projeto você precisará ter as seguintes bibliotecas instaladas
 
-## Project Setup
-
+Express
 ```sh
-npm install
+npm install express
 ```
 
-### Compile and Hot-Reload for Development
+MySQL
+```sh
+npm install mysql2
+```
 
+BCrypt
+```sh
+npm install bcrypt
+```
+
+### Iniciar
+
+Para executar o projeto é necessário executar os comandos em terminais diferentes
+
+Vite
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
-
+Node
 ```sh
-npm run build
+node server.cjs
 ```
