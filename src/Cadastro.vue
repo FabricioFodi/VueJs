@@ -1,21 +1,21 @@
 <script setup>
 import { ref } from "vue";
 
-const usuario = ref("");
-const senha = ref("");
+const usuario = ref('');
+const senha = ref('');
 
 //Cadastro método post
 async function cadastrarUsuario() {
   try {
     if (!usuario.value || !senha.value) {
-      alert(data.mensagem || "Preencha todos os campos");
+      alert("Preencha todos os campos");
       return;
     }
 
     const response = await fetch("http://localhost:5183/api/cadastro", {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ usuario: usuario.value, senha: senha.value }),
     });
@@ -25,13 +25,13 @@ async function cadastrarUsuario() {
       alert(dadosErro.mensagem || "Erro desconhecido");
       throw new Error(dadosErro.mensagem || "Erro desconhecido");
     }
+    
     const data = await response.json();
     alert(data.mensagem);
     window.location.href = "/";
 
   } catch (erro) {
     console.error("Erro", erro);
-    alert(erro.mesagem || "Erro ao cadastrar o usuário");
   }
 }
 </script>
