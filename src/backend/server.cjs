@@ -1,5 +1,6 @@
 const { conexao } = require('./conexao.cjs');
 const { autenticarToken, SECRET_KEY } = require('./middleware.cjs');
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -48,7 +49,6 @@ app.post('/api/cadastro', async (req, res) => {
         return res.status(201).json({ mensagem: `Usuário ${usuario} cadastrado com sucesso` });
 
     } catch (erro) {
-        console.error('Erro ao cadastrar usuário:', erro);
         return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário' });
     }
 });
@@ -72,14 +72,13 @@ app.post('/api/login', async (req, res) => {
         }
         const token = jwt.sign(
             { usuario: dadosUsuario.usuario },
-            'SECRET_KEY',
+            SECRET_KEY,
             { expiresIn: '30m' }
         );
         return res.status(200).json({ mensagem: 'Usuário logado', token });
 
     } catch (erro) {
-        console.error('Erro ao processar login:', erro);
-        return res.status(500).json({ erro: 'Erro ao processar login' || erro.message });
+        return res.status(500).json(erro.message || erro);
     }
 });
 
@@ -109,10 +108,46 @@ app.post('/api/tarefas', async (req, res) => {
         await conexao.promise().query(query, [descricao]);
         res.status(201).json({ mensagem: 'Tarefa criada com sucesso' });
     } catch (erro) {
-        console.error('Erro ao criar tarefa:', erro);
         res.status(500).json({ erro: 'Erro ao criar tarefa' });
     }
 });
+
+app.patch('/api/tarefas/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { concluida } = req.body;
+
+        const query = 'SELECT * FROM tarefas WHERE id = ?';
+        const [tarefas] = await conexao.promise().query(query, [id]);
+
+        if (tarefas.length === 0) {
+            return res.status(404).json({ erro: 'Tarefa não encontrada' });
+        }
+
+        const tarefa = tarefas[0];
+        tarefa.concluida = concluida;
+
+        const updateQuery = 'UPDATE tarefas SET concluida = ? WHERE id = ?';
+        await conexao.promise().query(updateQuery, [concluida, id]);
+
+        res.status(200).json({ mensagem: 'Tarefa concluida com exito' });
+    } catch (erro) {
+        res.status(500).json({ erro: 'Erro ao atualizar tarefa' });
+    }
+});
+
+//Método DELETE
+app.delete('/api/tarefas/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = 'DELETE FROM tarefas WHERE id = ?';
+        await conexao.promise().query(query, [id]);
+        res.json({ mensagem: 'Tarefa excluída com sucesso' });
+    } catch (erro) {
+        res.status(500).json({ erro: 'Erro ao excluir tarefa' });
+    }
+});
+
 
 // Inicializa o servidor
 const PORT = process.env.PORT || 5183;
