@@ -4,19 +4,19 @@ import Login from './login.vue';
 import App from './App.vue';
 import Cadastro from './Cadastro.vue';
 import NotFound from './NotFound.vue';
+import Home from './Home.vue';
 
 const routes = {
     '/login': Login,
     '/cadastro': Cadastro,
     '/tarefas': App,
-    '/oops': NotFound
+    '/oops': NotFound,
+    '/home': Home
 }
 
-
-
-// Detectar se o hash inicial está vazio e redirecionar para "/login"
+// Detectar se o hash inicial está vazio e redirecionar para "/home"
 if (!window.location.hash || window.location.hash === '/') {
-    window.location.hash = '#/login';
+    window.location.hash = '#/home';
 }
 
 const currentPath = ref(window.location.hash);
