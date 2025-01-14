@@ -12,14 +12,18 @@
       </div><!--Fim div Auth-links-->
     </div><!--Fim div Cabecalho-->
     <div class="conteudo-principal">
-      <p>Bem-vindes a página principal!</p>
-
+      <div class="coluna">
+      <a href="#/tarefas">Lista to-do</a>
+      <a target="_blank" href="https://github.com/FabricioFodi/VueJs.git">Github</a>
+      <a href="#/sobre">Sobre</a>
+      </div><!--Fim div Coluna-->
+      <div class="svg-icon">
       <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
       <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
       <svg
-        width="400px"
-        height="400px"
+        width="800px"
+        height="600px"
         viewBox="-102.4 -102.4 1228.80 1228.80"
         class="icon"
         version="1.1"
@@ -58,6 +62,7 @@
           />
         </g>
       </svg>
+    </div><!--Fim div SVG-->
     </div>
     <!--Fim div Conteudo Principal-->
   </div>
@@ -65,6 +70,21 @@
 </template>
 
 <style scoped>
+/* Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.conteudo-principal p {
+  font-family: 'DeathMohawk', sans-serif;
+  font-size: 8rem;
+  color: #f25050;
+  user-select: none;
+}
+
+.coluna a:hover {
+  transition: 0.5s;
+  color: #70f250;
+  
+}
 .cabecalho {
   display: flex;
   justify-content: space-between;
@@ -82,8 +102,46 @@
   margin-left: 10px;
 }
 
+.sign-up {
+  padding: 1px 2px;
+  border: 1px solid rgba(255, 255, 255, 0.719);
+  border-radius: 5px;
+}
+
+.coluna {
+  position: fixed; /* Fixar na tela */
+  bottom: 40px; /* Ajustar a distância do canto inferior */
+  left: 40px; /* Ajustar a distância do canto esquerdo */
+  display: flex;
+  flex-direction: column;
+  gap: 0px; /* Espaçamento entre os links */
+  font-size: 2rem;
+}
+
+
+.conteudo-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.container {
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+}
+.svg-icon {
+  position: fixed; /* Fixado na tela, não afeta o layout geral */
+  bottom: 0;
+  right: 0;
+  margin: 0; /* Remove margens */
+  width: auto; /* Ajuste automático da largura */
+  height: auto; /* Ajuste automático da altura */
+  overflow: hidden; /* Evita qualquer overflow */
+}
+
 svg {
-  animation: rotate 8s linear infinite;
+  animation: rotate 16s linear infinite;
 }
 
 @keyframes rotate {

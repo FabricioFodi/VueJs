@@ -5,13 +5,15 @@ import App from './App.vue';
 import Cadastro from './Cadastro.vue';
 import NotFound from './NotFound.vue';
 import Home from './Home.vue';
+import Sobre from './Sobre.vue';
 
 const routes = {
     '/login': Login,
     '/cadastro': Cadastro,
     '/tarefas': App,
     '/oops': NotFound,
-    '/home': Home
+    '/home': Home,
+    '/sobre': Sobre
 }
 
 // Detectar se o hash inicial está vazio e redirecionar para "/home"
