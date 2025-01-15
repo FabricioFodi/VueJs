@@ -2,13 +2,18 @@
 
 <script setup>
 
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 // Estado de autenticação e nome do usuário
 const estaLogado = ref(!!localStorage.getItem('token'));
 const nomeUsuario = ref('');
 const tarefas = ref([]);
 const novaTarefa = ref("");
+
+if(!localStorage.getItem('token')){
+  alert('Você precisa estar logado para acessar essa página');
+  window.location.hash = '#/login';
+};
 
 //Adicionar tarefa método post
 async function adicionarTarefa() {
@@ -111,14 +116,13 @@ async function alternarTarefa(index) {
   }
 }
 
-
-
 // Função para pegar o nome do usuário
 async function pegarNomeUsuario() {
   try {
     const response = await fetch('http://localhost:5183/api/usuario', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
       },
     });
 
