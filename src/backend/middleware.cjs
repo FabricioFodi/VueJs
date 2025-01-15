@@ -9,7 +9,7 @@ const autenticarToken = (req, res, next) => {
     }
     jwt.verify(token, SECRET_KEY, (erro, decoded) => {
         if (erro) {
-            return res.status(403).json({ mensagem: 'Token inválido' });
+            return res.status(403).json({ mensagem: 'Token inválido. Faça login novamente' });
         }
         req.usuario = decoded; // Armazenando as informações do usuário no req
         next();

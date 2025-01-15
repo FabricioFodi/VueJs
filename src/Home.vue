@@ -28,7 +28,7 @@ async function pegarNomeUsuario() {
 }
 
 // Função de logout
-function logout() {
+async function logout() {
   localStorage.removeItem('token');
   nomeUsuario.value = ''; // Reseta o nome do usuário
   estaLogado.value = false; // Atualiza o estado de login
@@ -122,13 +122,6 @@ onMounted(() => {
 <style scoped>
 /* Fontes */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-.conteudo-principal p {
-  font-family: 'DeathMohawk', sans-serif;
-  font-size: 8rem;
-  color: #f25050;
-  user-select: none;
-}
 
 .coluna a:hover {
   transition: 0.5s;

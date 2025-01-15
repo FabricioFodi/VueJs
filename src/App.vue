@@ -1,12 +1,14 @@
+// Tarefas
+
 <script setup>
+
 import { ref } from "vue";
 
+// Estado de autenticação e nome do usuário
+const estaLogado = ref(!!localStorage.getItem('token'));
+const nomeUsuario = ref('');
 const tarefas = ref([]);
 const novaTarefa = ref("");
-
-if (!localStorage.getItem("token")) {
-  window.location.hash = "#/login";
-}
 
 //Adicionar tarefa método post
 async function adicionarTarefa() {
@@ -109,26 +111,76 @@ async function alternarTarefa(index) {
   }
 }
 
-async function logout() {
-  localStorage.removeItem("token");
-  window.location.hash = "#/login";
+
+
+// Função para pegar o nome do usuário
+async function pegarNomeUsuario() {
+  try {
+    const response = await fetch('http://localhost:5183/api/usuario', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao pegar o nome do usuário');
+    }
+
+    const data = await response.json();
+    nomeUsuario.value = data.usuario; // Atualiza o nome do usuário
+  } catch (error) {
+    console.error('Erro', error);
+    nomeUsuario.value = ''; // Reseta o nome do usuário em caso de erro
+    estaLogado.value = false; // Considera o usuário como deslogado
+  }
 }
+
+// Função de logout
+async function logout() {
+  localStorage.removeItem('token');
+  nomeUsuario.value = ''; // Reseta o nome do usuário
+  estaLogado.value = false; // Atualiza o estado de login
+}
+
+// Ao montar o componente, busca o nome do usuário se logado
+onMounted(() => {
+  if (estaLogado.value) {
+    pegarNomeUsuario();
+  }
+});
+
 </script>
 
 <template>
   <link rel="shortcut icon" href="../public/icone.ico" type="image/x-icon" />
-  <div>
+  <div class="cabecalho">
+      <h1><a href="#/home">Home</a></h1>
+      <div class="auth-links">
+        <div class="sign-in">
+          <a v-if="!estaLogado" href="#/login">Login</a>
+          <div v-else>
+            <span>Olá, {{ nomeUsuario || 'Usuário' }}</span>
+          </div><!--Fim div Else dentro da div Sign-in-->
+        </div><!--Fim div Sign-in-->
+        <div class="sign-up">
+          <a v-if="!estaLogado" href="#/cadastro">Cadastrar-se</a>
+          <div v-else>
+            <a @click="logout" href="#/home">Sair</a>
+          </div><!--Fim div Else dentro da div Sign-up-->
+        </div><!--Fim div Sign-up-->
+      </div><!--Fim div Auth-links-->
+    </div><!--Fim div Cabecalho-->
+  <div class="principal">
     <h1>Lista To-Do</h1>
-    <button @click="logout">Sair</button>
-
-    <input
-      v-model="novaTarefa"
-      @keyup.enter="adicionarTarefa"
-      placeholder="Adicionar nova tarefa"
-    />
-    <button @click="adicionarTarefa">Adicionar</button>
-    <button @click="listarTarefas">Listar</button>
-
+    <div class="inputs">
+      <input
+        v-model="novaTarefa"
+        @keyup.enter="adicionarTarefa"
+        placeholder="Adicionar nova tarefa"
+      />
+      <button @click="adicionarTarefa">Adicionar</button>
+      <button @click="listarTarefas">Listar</button>
+    </div><!--Fim div inputs-->
     <div class="lista">
       <ul>
         <li v-for="(tarefa, index) in tarefas" :key="index">
@@ -141,17 +193,44 @@ async function logout() {
           <button @click="excluirTarefa(tarefa.id)">Excluir</button>
         </li>
       </ul>
-    </div>
-    <!--Fim div lista de tarefas-->
-  </div>
-  <!--Fim div principal-->
+    </div> <!--Fim div lista de tarefas-->
+  </div> <!--Fim div principal-->
 </template>
 
 <style scoped>
-div {
-  margin: 20px;
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
-.lsita {
+
+.auth-links {
+  margin-left: auto;
+  display: flex;
+}
+
+.auth-links .sign-in,
+.auth-links .sign-up {
+  margin-left: 10px;
+}
+
+.sign-up {
+  padding: 1px 2px;
+  border: 1px solid rgba(255, 255, 255, 0.719);
+  border-radius: 5px;
+}
+
+.principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+
+}
+
+.lista {
   margin-top: 20px;
 }
 
