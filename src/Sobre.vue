@@ -2,7 +2,7 @@
   <div class="conteudo">
     <p>Essa página está em construção..</p>
     <p>Por favor, volte mais tarde.</p>
-    <button><a href="#/home">Voltar</a></button>
+    <a href="#/home">Voltar</a>
   </div>
 </template>
 
@@ -11,19 +11,12 @@
     text-align: center;
     font-size: 20px;
     font-weight: bold;
+    margin: 6px;
 }
 .conteudo a {
-    text-decoration: none;
-    color: #0b7e0b;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.conteudo button {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
+  padding: 1px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.719);
+  border-radius: 5px;
+  font-size: 18px;
 }
 </style>

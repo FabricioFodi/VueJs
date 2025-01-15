@@ -29,7 +29,7 @@ async function login() {
     const data = await response.json();
     localStorage.setItem("token", data.token);
     alert(data.mensagem);
-    window.location.hash = "#/tarefas";
+    window.location.hash = "#/home";
   } catch (erro) {
     console.error("Erro", erro);
   }
