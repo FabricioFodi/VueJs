@@ -82,6 +82,25 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+app.get('/api/usuario', (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        if (!authHeader) {
+            return res.status(401).json({ mensagem: 'Token não fornecido' });
+        }
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, SECRET_KEY);
+        res.json({ usuario: decoded.usuario }); // Retorna somente o nome do usuário
+    } catch (erro) {
+        if (erro.name === 'TokenExpiredError') {
+            return res.status(401).json({ mensagem: 'Token expirado' });
+        }
+        res.status(403).json({ mensagem: 'Token inválido' });
+    }
+});
+
+
+// Middleware para autenticar o token
 app.use('/api/tarefas', autenticarToken);
 
 // Rotas da API
