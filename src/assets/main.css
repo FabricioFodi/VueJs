@@ -1,5 +1,10 @@
 @import './base.css';
 
+body {
+  min-width: 420px;
+  min-height: 600px;
+}
+
 #app {
   width: 100vw;
   height: 100vh;
