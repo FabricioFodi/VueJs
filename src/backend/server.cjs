@@ -26,21 +26,15 @@ app.post('/api/cadastro', async (req, res) => {
         }
 
         // Verificar se o usuário já existe
-        const queryVerificar = 'SELECT * FROM usuarios WHERE usuario = ?';
+        const queryVerificar = 'SELECT 1 FROM usuarios WHERE usuario = ?';
         const [usuarios] = await conexao.promise().query(queryVerificar, [usuario]);
 
         if (usuarios.length > 0) {
-            return res.status(400).json({ mensagem: `Usuário ${usuario} já existe` });
+            return res.status(400).json({ mensagem: `Usuário já existe. Use outro nome de usuário` });
         }
 
         // Criptografar a senha e tratar erro
-        let senhaCriptografada;
-        try {
-            senhaCriptografada = await bcrypt.hash(senha, 10);
-        } catch (erro) {
-            console.error('Erro ao criptografar a senha:', erro);
-            return res.status(500).json({ mensagem: 'Erro ao criptografar a senha' });
-        }
+        const senhaCriptografada = await bcrypt.hash(senha, 10);
 
         // Inserir usuário no banco de dados
         const queryInserir = 'INSERT INTO usuarios (usuario, senha) VALUES (?, ?)';
@@ -49,7 +43,10 @@ app.post('/api/cadastro', async (req, res) => {
         return res.status(201).json({ mensagem: `Usuário ${usuario} cadastrado com sucesso` });
 
     } catch (erro) {
-        return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário' });
+        if(erro.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ mensagem: 'Usuário já existe. Use outro nome de usuário' });
+        }
+        return res.status(500).json({ mensagem: 'Erro interno ao cadastrar usuário' });
     }
 });
 
@@ -82,7 +79,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-app.get('/api/usuario', (req, res) => {
+app.get('/api/usuario', async (req, res) => {
     try {
         const authHeader = req.headers['authorization'];
         if (!authHeader) {
