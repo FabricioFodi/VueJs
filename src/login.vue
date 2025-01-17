@@ -71,7 +71,7 @@ async function login() {
         <input type="password" v-model="senha" @keyup.enter="login" placeholder="Senha" />
         <button @click="login">Entrar</button>
         <div class="link-para-cadastro">
-          <p>Não tem cadastro? <a href="#/cadastro">clique aqui</a> para criar uma conta.</p>
+          <p>Não tem conta? <a href="#/cadastro">clique aqui</a> para criar.</p>
         </div><!--Fim div link-para-cadastro-->
   </div><!--Fim div Login-->
 </div><!--Fim div Corpo-->

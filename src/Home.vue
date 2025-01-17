@@ -64,7 +64,7 @@ onMounted(() => {
     <div class="conteudo-principal">
       <div class="coluna">
       <a href="#/tarefas">Lista to-do</a>
-      <a target="_blank" href="https://github.com/FabricioFodi/VueJs.git">Github</a>
+      <a target="_blank" href="https://github.com/FabricioFodi/VueJs.git">Git Repo</a>
       <a href="#/sobre">Sobre</a>
       </div><!--Fim div Coluna-->
       <div class="svg-icon">
