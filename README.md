@@ -41,7 +41,7 @@ Para iniciar o projeto siga os passos abaixo
 ```sh
 npm run dev
 ```
-# Backend
+# Backend(Node.js)
 
 Navegue até a pasta do backend:
 
