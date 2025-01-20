@@ -39,25 +39,6 @@ async function cadastrarUsuario() {
   <link rel="shortcut icon" href="../public/icone.ico" type="image/x-icon" />
   <div class="cabecalho">
     <h1><a href="#/home">Home</a></h1>
-    <div class="auth-links">
-      <div class="sign-in">
-        <a v-if="!estaLogado" href="#/login">Login</a>
-        <div v-else>
-          <span>Olá, {{ nomeUsuario || "Usuário" }}</span>
-        </div>
-        <!--Fim div Else dentro da div Sign-in-->
-      </div>
-      <!--Fim div Sign-in-->
-      <div class="sign-up">
-        <a v-if="!estaLogado" href="#/cadastro">Cadastrar-se</a>
-        <div v-else>
-          <a @click="logout" href="#/home">Sair</a>
-        </div>
-        <!--Fim div Else dentro da div Sign-up-->
-      </div>
-      <!--Fim div Sign-up-->
-    </div>
-    <!--Fim div Auth-links-->
   </div>
   <!--Fim div Cabecalho-->
   <div class="corpo">
@@ -155,21 +136,5 @@ async function cadastrarUsuario() {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-}
-
-.auth-links {
-  margin-left: auto;
-  display: flex;
-}
-
-.auth-links .sign-in,
-.auth-links .sign-up {
-  margin-left: 10px;
-}
-
-.sign-up {
-  padding: 1px 2px;
-  border: 1px solid rgba(255, 255, 255, 0.719);
-  border-radius: 5px;
 }
 </style>
