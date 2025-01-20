@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173', // URL do frontend
+    origin: 'http://localhost:5174', // URL do frontend
 }));
 app.use(express.json());
 
