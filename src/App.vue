@@ -38,10 +38,10 @@ async function adicionarTarefa() {
     const data = await response.json();
     alert(data.mensagem);
     novaTarefa.value = "";
+    listarTarefas();
   } catch (erro) {
     alert(erro.mensagem || "Erro ao adicionar tarefa");
   }
-  listarTarefas();
 }
 
 //Listar tarefas método get
@@ -50,6 +50,7 @@ async function listarTarefas() {
     const response = await fetch("http://localhost:5183/api/tarefas", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
       },
     });
     if (!response.ok) {
@@ -60,7 +61,6 @@ async function listarTarefas() {
     tarefas.value = await response.json();
   } catch (erro) {
     console.log("Erro", erro);
-    alert(erro.mensagem || "Erro ao listar as tarefas");
   }
 }
 
