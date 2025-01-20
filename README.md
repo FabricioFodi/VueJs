@@ -22,7 +22,7 @@ Depois, instale as dependências do projeto com o comando:
 ```sh
 npm install
 ```
-**Este comando instala automaticamente todas as bibliotecas necessárias.
+>Este comando instala automaticamente todas as bibliotecas necessárias.
 
 ## Configurando o Banco de Dados
 
