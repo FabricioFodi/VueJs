@@ -43,7 +43,7 @@ app.post('/api/cadastro', async (req, res) => {
         return res.status(201).json({ mensagem: `Usuário ${usuario} cadastrado com sucesso` });
 
     } catch (erro) {
-        if(erro.code === 'ER_DUP_ENTRY') {
+        if (erro.code === 'ER_DUP_ENTRY') {
             return res.status(400).json({ mensagem: 'Usuário já existe. Use outro nome de usuário' });
         }
         return res.status(500).json({ mensagem: 'Erro interno ao cadastrar usuário' });
@@ -68,7 +68,7 @@ app.post('/api/login', async (req, res) => {
             return res.status(400).json({ mensagem: 'Usuário ou senha inválidos' });
         }
         const token = jwt.sign(
-            { usuario: dadosUsuario.usuario },
+            { id: dadosUsuario.id,  usuario: dadosUsuario.usuario },
             SECRET_KEY,
             { expiresIn: '30m' }
         );
@@ -103,11 +103,16 @@ app.use('/api/tarefas', autenticarToken);
 // Rotas da API
 app.get('/api/tarefas', async (req, res) => {
     try {
-        const query = 'SELECT * FROM tarefas';
-        const [tarefas] = await conexao.promise().query(query);
-        res.json(tarefas);
+        const idUsuario = req.usuario.id; // Pega o id do usuário autenticado
+        console.log('ID do Usuário:', idUsuario);
+        const query = 'SELECT * FROM tarefas WHERE id_usuario = ?';
+        const [tarefas] = await conexao.promise().query(query, [idUsuario]);
+        if (!tarefas.length) {
+            return res.status(404).json({ mensagem: 'Nenhuma tarefa encontrada' });
+        } else {
+            res.json(tarefas);
+        }
     } catch (erro) {
-        console.error('Erro ao buscar tarefas:', erro);
         res.status(500).json({ erro: 'Erro ao buscar tarefas' });
     }
 });
@@ -115,15 +120,17 @@ app.get('/api/tarefas', async (req, res) => {
 app.post('/api/tarefas', async (req, res) => {
     try {
         const { descricao } = req.body;
-        if (!descricao) {
-            return res.status(400).json({ erro: 'Descrição é obrigatório' });
+        const idUsuario = req.usuario.id;
+        console.log('ID do Usuário:', idUsuario);
+        if (!idUsuario || !descricao) {
+            return res.status(400).json({ mensagem: 'ID do usuário ou descrição da tarefa não fornecidos' });
         }
-
-        const query = 'INSERT INTO tarefas (descricao) VALUES (?)';
-
-        await conexao.promise().query(query, [descricao]);
+        const query = 'INSERT INTO tarefas (id_usuario, descricao) VALUES (?, ?)';
+        await conexao.promise().query(query, [idUsuario, descricao]);
+        console.log('ID do Usuário:', idUsuario);
         res.status(201).json({ mensagem: 'Tarefa criada com sucesso' });
     } catch (erro) {
+        console.log('ID do Usuário:', idUsuario);
         res.status(500).json({ erro: 'Erro ao criar tarefa' });
     }
 });
