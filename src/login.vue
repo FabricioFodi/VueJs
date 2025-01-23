@@ -4,8 +4,6 @@ import { ref } from "vue";
 const usuario = ref("");
 const senha = ref("");
 
-const estaLogado = ref(false)
-
 //Login método post
 async function login() {
   try {
@@ -113,7 +111,7 @@ async function login() {
   height: 30px;
   border-radius: 16px;
   border: 1px solid #000000;
-  background-color: hsla(160, 100%, 37%, 1); 
+  background-color: hsla(160, 100%, 37%, 1);
   cursor: pointer;
   font-weight: 700;
 }
