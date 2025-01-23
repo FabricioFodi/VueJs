@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-
-const SECRET_KEY = 'minha_chave_super_secreta-123';
+const { SECRET_KEY } = require('./chave_secreta.cjs');
 
 const autenticarToken = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];
@@ -16,4 +15,4 @@ const autenticarToken = (req, res, next) => {
     });
 };
 
-module.exports = { autenticarToken, SECRET_KEY };
+module.exports = { autenticarToken };
