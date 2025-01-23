@@ -1,12 +1,20 @@
 const { conexao } = require('./conexao.cjs');
-const { autenticarToken, SECRET_KEY } = require('./middleware.cjs');
+const { autenticarToken } = require('./middleware.cjs');
+const { SECRET_KEY } = require('./chave_secreta.cjs');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
+
+const options = {
+    key: fs.readFileSync('../../localhost-key.pem'),
+    cert: fs.readFileSync('../../localhost.pem'),
+};
 
 app.use(cors({
     origin: 'http://localhost:5174', // URL do frontend
@@ -172,8 +180,8 @@ app.delete('/api/tarefas/:id', async (req, res) => {
 });
 
 
-// Inicializa o servidor
+// Inicializa o servidor HTTPS
 const PORT = process.env.PORT || 5183;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+https.createServer(options, app).listen(PORT, () => {
+    console.log(`Servidor rodando em https://localhost:${PORT}`);
 });
