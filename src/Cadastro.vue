@@ -12,7 +12,7 @@ async function cadastrarUsuario() {
       return;
     }
 
-    const response = await fetch("http://localhost:5183/api/cadastro", {
+    const response = await fetch("https://localhost:5183/api/cadastro", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

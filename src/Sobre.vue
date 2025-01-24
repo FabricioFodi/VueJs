@@ -8,7 +8,7 @@ const nomeUsuario = ref("");
 // Função para pegar o nome do usuário
 async function pegarNomeUsuario() {
   try {
-    const response = await fetch("http://localhost:5183/api/usuario", {
+    const response = await fetch("https://localhost:5183/api/usuario", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

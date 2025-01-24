@@ -8,7 +8,7 @@ const nomeUsuario = ref("");
 // Função para pegar o nome do usuário
 async function pegarNomeUsuario() {
   try {
-    const response = await fetch("http://localhost:5183/api/usuario", {
+    const response = await fetch("https://localhost:5183/api/usuario", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -148,10 +148,12 @@ if (estaLogado.value) {
 <style scoped>
 /* Fontes */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import './assets/base.css'; 
 
 .coluna a:hover {
   transition: 0.5s;
   color: #70f250;
+  color: var(--vt-c-ahover);
 }
 .cabecalho {
   display: flex;

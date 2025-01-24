@@ -17,7 +17,7 @@ const options = {
 };
 
 app.use(cors({
-    origin: 'http://localhost:5174', // URL do frontend
+    origin: 'https://localhost:5174', // URL do frontend
 }));
 app.use(express.json());
 

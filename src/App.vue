@@ -21,7 +21,7 @@ async function adicionarTarefa() {
       alert("Digite uma tarefa");
       return;
     }
-    const response = await fetch("http://localhost:5183/api/tarefas", {
+    const response = await fetch("https://localhost:5183/api/tarefas", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -47,7 +47,7 @@ async function adicionarTarefa() {
 //Listar tarefas método get
 async function listarTarefas() {
   try {
-    const response = await fetch("http://localhost:5183/api/tarefas", {
+    const response = await fetch("https://localhost:5183/api/tarefas", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ async function listarTarefas() {
 //Excluir tarefa método delete
 async function excluirTarefa(index) {
   try {
-    const response = await fetch(`http://localhost:5183/api/tarefas/${index}`, {
+    const response = await fetch(`https://localhost:5183/api/tarefas/${index}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -95,7 +95,7 @@ async function alternarTarefa(index) {
 
   try {
     //Atualizar a tarefa no backend
-    const response = await fetch(`http://localhost:5183/api/tarefas/${tarefa.id}`, {
+    const response = await fetch(`https://localhost:5183/api/tarefas/${tarefa.id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -117,7 +117,7 @@ async function alternarTarefa(index) {
 // Função para pegar o nome do usuário
 async function pegarNomeUsuario() {
   try {
-    const response = await fetch("http://localhost:5183/api/usuario", {
+    const response = await fetch("https://localhost:5183/api/usuario", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
