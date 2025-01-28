@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-// Estado de autenticação e nome do usuário
+// Controle do estado de autenticação
 const estaLogado = ref(!!localStorage.getItem("token"));
 const nomeUsuario = ref("");
 
@@ -22,30 +22,48 @@ async function pegarNomeUsuario() {
     nomeUsuario.value = data.usuario; // Atualiza o nome do usuário
   } catch (error) {
     console.error("Erro", error);
-    nomeUsuario.value = ""; // Reseta o nome do usuário em caso de erro
-    estaLogado.value = false; // Considera o usuário como deslogado
+    nomeUsuario.value = "";
+    estaLogado.value = false;
   }
 }
 
 // Função de logout
-async function logout() {
+const logout = () => {
   localStorage.removeItem("token");
-  nomeUsuario.value = ""; // Reseta o nome do usuário
-  estaLogado.value = false; // Atualiza o estado de login
-}
+  nomeUsuario.value = "";
+  estaLogado.value = false;
+};
 
-// Ao montar o componente, busca o nome do usuário se logado
+// Alternância entre claro e escuro
+const toggleTheme = () => {
+  const htmlElement = document.documentElement;
+  htmlElement.classList.toggle("dark-mode");
+  const isDarkMode = htmlElement.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+};
+
+// Inicialização do tema no carregamento
 onMounted(() => {
-  if (estaLogado.value) {
-    pegarNomeUsuario();
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark-mode");
+  } else {
+    document.documentElement.classList.remove("dark-mode");
   }
 });
+
+if (estaLogado.value) {
+  pegarNomeUsuario();
+}
 </script>
 
 <template>
   <div class="container">
     <div class="cabecalho">
       <h1><a href="#/home">Home</a></h1>
+      <div class="dark-mode">
+      <button @click="toggleTheme">Alternar Tema</button>
+      </div><!--Fim div Dark-mode-->
       <div class="auth-links">
         <div class="sign-in">
           <a v-if="!estaLogado" href="#/login">Login</a>
@@ -130,10 +148,12 @@ onMounted(() => {
 <style scoped>
 /* Fontes */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import './assets/base.css'; 
 
 .coluna a:hover {
   transition: 0.5s;
   color: #70f250;
+  color: var(--vt-c-ahover);
 }
 .cabecalho {
   display: flex;
