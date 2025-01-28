@@ -8,6 +8,9 @@ const estaLogado = ref(!!localStorage.getItem("token"));
 const nomeUsuario = ref("");
 const tarefas = ref([]);
 const novaTarefa = ref("");
+window.onload = function () {
+  document.getElementById("novaTarefa").focus();
+}
 
 if (!localStorage.getItem("token")) {
   alert("Você precisa estar logado para acessar essa página");
@@ -17,11 +20,11 @@ if (!localStorage.getItem("token")) {
 //Adicionar tarefa método post
 async function adicionarTarefa() {
   try {
-    if (!novaTarefa.value) {
+    if(!novaTarefa.value){
       alert("Digite uma tarefa");
       return;
     }
-    const response = await fetch("http://localhost:5183/api/tarefas", {
+    const response = await fetch("https://localhost:5183/api/tarefas", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -47,7 +50,7 @@ async function adicionarTarefa() {
 //Listar tarefas método get
 async function listarTarefas() {
   try {
-    const response = await fetch("http://localhost:5183/api/tarefas", {
+    const response = await fetch("https://localhost:5183/api/tarefas", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
@@ -67,7 +70,7 @@ async function listarTarefas() {
 //Excluir tarefa método delete
 async function excluirTarefa(index) {
   try {
-    const response = await fetch(`http://localhost:5183/api/tarefas/${index}`, {
+    const response = await fetch(`https://localhost:5183/api/tarefas/${index}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -95,7 +98,7 @@ async function alternarTarefa(index) {
 
   try {
     //Atualizar a tarefa no backend
-    const response = await fetch(`http://localhost:5183/api/tarefas/${tarefa.id}`, {
+    const response = await fetch(`https://localhost:5183/api/tarefas/${tarefa.id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -117,7 +120,7 @@ async function alternarTarefa(index) {
 // Função para pegar o nome do usuário
 async function pegarNomeUsuario() {
   try {
-    const response = await fetch("http://localhost:5183/api/usuario", {
+    const response = await fetch("https://localhost:5183/api/usuario", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
@@ -181,6 +184,7 @@ onMounted(() => {
     <h1>Lista To-Do</h1>
     <div class="inputs">
       <input
+      id="novaTarefa"
         v-model="novaTarefa"
         @keyup.enter="adicionarTarefa"
         placeholder="Adicionar nova tarefa"
@@ -254,10 +258,6 @@ onMounted(() => {
   padding-left: 5px;
 }
 
-.lista {
-  margin-top: 20px;
-}
-
 .inputs button {
   box-sizing: border-box;
   border-radius: 12px;
@@ -265,6 +265,10 @@ onMounted(() => {
   font-size: 13px;
   margin-left: 7px;
   cursor: pointer;
+}
+
+.lista {
+  margin-top: 20px;
 }
 
 .lista ul {

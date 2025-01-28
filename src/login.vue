@@ -12,7 +12,7 @@ async function login() {
       return;
     }
 
-    const response = await fetch("http://localhost:5183/api/login", {
+    const response = await fetch("https://localhost:5183/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,6 @@ async function login() {
 
     const data = await response.json();
     localStorage.setItem("token", data.token);
-    alert(data.mensagem);
     window.location.hash = "#/home";
   } catch (erro) {
     console.error("Erro", erro);

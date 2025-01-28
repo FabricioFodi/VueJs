@@ -8,7 +8,7 @@ const nomeUsuario = ref("");
 // Função para pegar o nome do usuário
 async function pegarNomeUsuario() {
   try {
-    const response = await fetch("http://localhost:5183/api/usuario", {
+    const response = await fetch("https://localhost:5183/api/usuario", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -145,6 +145,13 @@ onMounted(() => {
 .link-git {
   text-align: center;
   margin-top: 40px;
+}
+.link-git a {
+  transition: all 0.3s ease-in-out; 
+}
+.link-git a:hover {
+  background-color: #f8f8f8;
+  color: #000;
 }
 
 </style>

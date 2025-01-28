@@ -17,7 +17,7 @@ const options = {
 };
 
 app.use(cors({
-    origin: 'http://localhost:5174', // URL do frontend
+    origin: 'https://localhost:5174', // URL do frontend
 }));
 app.use(express.json());
 
@@ -112,7 +112,6 @@ app.use('/api/tarefas', autenticarToken);
 app.get('/api/tarefas', async (req, res) => {
     try {
         const idUsuario = req.usuario.id; // Pega o id do usuário autenticado
-        console.log('ID do Usuário:', idUsuario);
         const query = 'SELECT * FROM tarefas WHERE id_usuario = ?';
         const [tarefas] = await conexao.promise().query(query, [idUsuario]);
         if (!tarefas.length) {
@@ -129,7 +128,6 @@ app.post('/api/tarefas', async (req, res) => {
     try {
         const { descricao } = req.body;
         const idUsuario = req.usuario.id;
-        console.log('ID do Usuário:', idUsuario);
         if (!idUsuario || !descricao) {
             return res.status(400).json({ mensagem: 'ID do usuário ou descrição da tarefa não fornecidos' });
         }
@@ -138,7 +136,6 @@ app.post('/api/tarefas', async (req, res) => {
         console.log('ID do Usuário:', idUsuario);
         res.status(201).json({ mensagem: 'Tarefa criada com sucesso' });
     } catch (erro) {
-        console.log('ID do Usuário:', idUsuario);
         res.status(500).json({ erro: 'Erro ao criar tarefa' });
     }
 });
