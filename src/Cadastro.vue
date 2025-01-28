@@ -64,12 +64,15 @@ async function cadastrarUsuario() {
 * {
  font-family: 'Montserrat', sans-serif;
 }
-
+* a:hover{
+  text-decoration: none;
+}
 .corpo {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 700px;
+  color: white;
 }
 
 .titulo-cadastro {
